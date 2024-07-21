@@ -38,9 +38,17 @@ jobs:
         run: go mod tidy
         working-directory: src/huggingface-go
 
-      - name: Build
+      - name: Build (Linux and macOS)
+        if: runner.os != 'Windows'
         run: |
           go build -o huggingface-go-${{ matrix.os }} # 将 `huggingface-go` 替换为你的应用名称
+          ls
+        working-directory: src/huggingface-go
+        
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          go build -o huggingface-go-${{ matrix.os }}.exe # 将 `huggingface-go` 替换为你的应用名称
           ls
         working-directory: src/huggingface-go
 
