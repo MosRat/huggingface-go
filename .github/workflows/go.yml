@@ -52,18 +52,18 @@ jobs:
       - name: Archive the build (Linux and macOS)
         if: runner.os != 'Windows'
         run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go && ls
-        working-directory: src
+        working-directory: src/huggingface-go
 
       - name: Archive the build (Windows)
         if: runner.os == 'Windows'
         run: powershell Compress-Archive -Path huggingface-go -DestinationPath huggingface-go-${{ matrix.os }}.zip 
-        working-directory: src
+        working-directory: src/huggingface-go
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: huggingface-go-${{ matrix.os }}
-          path: huggingface-go-${{ matrix.os }}.zip
+          path: src/huggingface-go/huggingface-go-${{ matrix.os }}.zip
 
   release:
     needs: build
