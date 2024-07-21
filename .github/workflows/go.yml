@@ -33,19 +33,22 @@ jobs:
 
       - name: Install dependencies
         run: go mod tidy
+        working-directory: src
 
       - name: Build
-        run: go build -o myapp  # 将 `myapp` 替换为你的应用名称
+        run: go build -o huggingface-go  # 将 `huggingface-go` 替换为你的应用名称
+        working-directory: src
 
       - name: Archive the build
         if: success()
-        run: zip -r myapp-${{ matrix.os }}.zip myapp
+        run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go
+        working-directory: src
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: myapp-${{ matrix.os }}
-          path: myapp-${{ matrix.os }}.zip
+          name: huggingface-go-${{ matrix.os }}
+          path: huggingface-go-${{ matrix.os }}.zip
 
   release:
     needs: build
@@ -73,8 +76,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/myapp-ubuntu-latest.zip
-          asset_name: myapp-ubuntu-latest.zip
+          asset_path: ./artifacts/huggingface-go-ubuntu-latest.zip
+          asset_name: huggingface-go-ubuntu-latest.zip
           asset_content_type: application/zip
 
       - name: Upload Release Assets
@@ -83,8 +86,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/myapp-macos-latest.zip
-          asset_name: myapp-macos-latest.zip
+          asset_path: ./artifacts/huggingface-go-macos-latest.zip
+          asset_name: huggingface-go-macos-latest.zip
           asset_content_type: application/zip
 
       - name: Upload Release Assets
@@ -93,6 +96,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/myapp-windows-latest.zip
-          asset_name: myapp-windows-latest.zip
+          asset_path: ./artifacts/huggingface-go-windows-latest.zip
+          asset_name: huggingface-go-windows-latest.zip
           asset_content_type: application/zip
