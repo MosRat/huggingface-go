@@ -42,9 +42,19 @@ jobs:
         run: go build -o huggingface-go  # 将 `huggingface-go` 替换为你的应用名称
         working-directory: src/huggingface-go
 
-      - name: Archive the build
-        if: success()
+      # - name: Archive the build
+      #   if: success()
+      #   run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go
+      #   working-directory: src
+        
+      - name: Archive the build (Linux and macOS)
+        if: runner.os != 'Windows'
         run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go
+        working-directory: src
+
+      - name: Archive the build (Windows)
+        if: runner.os == 'Windows'
+        run: powershell Compress-Archive -Path huggingface-go -DestinationPath huggingface-go-${{ matrix.os }}.zip
         working-directory: src
 
       - name: Upload artifact
