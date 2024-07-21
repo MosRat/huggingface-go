@@ -36,11 +36,11 @@ jobs:
 
       - name: Install dependencies
         run: go mod tidy
-        working-directory: src
+        working-directory: src/huggingface-go
 
       - name: Build
         run: go build -o huggingface-go  # 将 `huggingface-go` 替换为你的应用名称
-        working-directory: src
+        working-directory: src/huggingface-go
 
       - name: Archive the build
         if: success()
