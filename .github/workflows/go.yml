@@ -40,7 +40,7 @@ jobs:
 
       - name: Build
         run: |
-          go build -o huggingface-go-${{ matrix.os }}-${{ matrix.arch }}  # 将 `huggingface-go` 替换为你的应用名称
+          go build -o huggingface-go-${{ matrix.os }} # 将 `huggingface-go` 替换为你的应用名称
           ls
         working-directory: src/huggingface-go
 
@@ -64,14 +64,14 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: huggingface-go-${{ matrix.os }}
-          path: src/huggingface-go/huggingface-go-${{ matrix.os }}-${{ matrix.arch }}
+          path: src/huggingface-go/huggingface-go-${{ matrix.os }}
           
       - name: Upload artifact (Windows)
         if: runner.os == 'Windows'
         uses: actions/upload-artifact@v3
         with:
           name: huggingface-go-${{ matrix.os }}
-          path: src/huggingface-go/huggingface-go-${{ matrix.os }}-${{ matrix.arch }}.exe
+          path: src/huggingface-go/huggingface-go-${{ matrix.os }}.exe
 
   release:
     needs: build
