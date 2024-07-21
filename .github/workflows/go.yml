@@ -115,7 +115,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./artifacts/huggingface-go-ubuntu-latest/huggingface-go-ubuntu-latest
-          asset_name: huggingface-go-ubuntu-latest
+          asset_name: hfgo-ubuntu-latest
           asset_content_type: application/octet-stream
 
       - name: Upload Release Assets
@@ -125,7 +125,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./artifacts/huggingface-go-macos-latest/huggingface-go-macos-latest
-          asset_name: huggingface-go-macos-latest
+          asset_name: hfgo-macos-latest
           asset_content_type: application/octet-stream
 
       - name: Upload Release Assets
@@ -135,5 +135,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./artifacts/huggingface-go-windows-latest/huggingface-go-windows-latest.exe
-          asset_name: huggingface-go-windows-latest.exe
+          asset_name: hfgo-windows-latest.exe
           asset_content_type: application/octet-stream
