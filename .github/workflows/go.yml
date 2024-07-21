@@ -93,7 +93,8 @@ jobs:
       - name: inspect
         run: |
           ls -la
-          ls -la ./artifacts 
+          ls -la ./artifacts
+          ls -la ./artifacts/huggingface-go-*
         
 
       - name: Create Release
@@ -113,7 +114,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-ubuntu-latest
+          asset_path: ./artifacts/huggingface-go-ubuntu-latest/huggingface-go-ubuntu-latest
           asset_name: huggingface-go-ubuntu-latest
           asset_content_type: application/octet-stream
 
@@ -123,7 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-macos-latest
+          asset_path: ./artifacts/huggingface-go-macos-latest/huggingface-go-macos-latest
           asset_name: huggingface-go-macos-latest
           asset_content_type: application/octet-stream
 
@@ -133,6 +134,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-windows-latest.exe
+          asset_path: ./artifacts/huggingface-go-windows-latest/huggingface-go-windows-latest.exe
           asset_name: huggingface-go-windows-latest.exe
           asset_content_type: application/octet-stream
