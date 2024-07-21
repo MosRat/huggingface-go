@@ -90,6 +90,12 @@ jobs:
         with:
           path: ./artifacts
 
+      - name: inspect
+        run: |
+          ls -la
+          ls -la ./artifacts 
+        
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
