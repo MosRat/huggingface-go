@@ -20,7 +20,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.20  # 指定需要的 Go 版本
+          go-version: 1.22  # 指定需要的 Go 版本
         
         
 
