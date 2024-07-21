@@ -40,7 +40,7 @@ jobs:
 
       - name: Build
         run: |
-          go build -o huggingface-go  # 将 `huggingface-go` 替换为你的应用名称
+          go build -o huggingface-go-${{ matrix.os }}-${{ matrix.arch }}  # 将 `huggingface-go` 替换为你的应用名称
           ls
         working-directory: src/huggingface-go
 
@@ -49,21 +49,29 @@ jobs:
       #   run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go
       #   working-directory: src
         
-      - name: Archive the build (Linux and macOS)
+      # - name: Archive the build (Linux and macOS)
+      #   if: runner.os != 'Windows'
+      #   run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go-${{ matrix.os }}-${{ matrix.arch }} && ls
+      #   working-directory: src/huggingface-go
+
+      # - name: Archive the build (Windows)
+      #   if: runner.os == 'Windows'
+      #   run: powershell Compress-Archive -Path huggingface-go-${{ matrix.os }}-${{ matrix.arch }}.exe -DestinationPath huggingface-go-${{ matrix.os }}.zip 
+      #   working-directory: src/huggingface-go
+
+      - name: Upload artifact (Linux and macOS)
         if: runner.os != 'Windows'
-        run: zip -r huggingface-go-${{ matrix.os }}.zip huggingface-go && ls
-        working-directory: src/huggingface-go
-
-      - name: Archive the build (Windows)
-        if: runner.os == 'Windows'
-        run: powershell Compress-Archive -Path huggingface-go -DestinationPath huggingface-go-${{ matrix.os }}.zip 
-        working-directory: src/huggingface-go
-
-      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: huggingface-go-${{ matrix.os }}
-          path: src/huggingface-go/huggingface-go-${{ matrix.os }}.zip
+          path: src/huggingface-go/huggingface-go-${{ matrix.os }}-${{ matrix.arch }}
+          
+      - name: Upload artifact (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v3
+        with:
+          name: huggingface-go-${{ matrix.os }}
+          path: src/huggingface-go/huggingface-go-${{ matrix.os }}-${{ matrix.arch }}.exe
 
   release:
     needs: build
@@ -91,9 +99,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-ubuntu-latest.zip
-          asset_name: huggingface-go-ubuntu-latest.zip
-          asset_content_type: application/zip
+          asset_path: ./artifacts/huggingface-go-ubuntu-latest
+          asset_name: huggingface-go-ubuntu-latest
+          asset_content_type: application/octet-stream
 
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
@@ -101,9 +109,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-macos-latest.zip
-          asset_name: huggingface-go-macos-latest.zip
-          asset_content_type: application/zip
+          asset_path: ./artifacts/huggingface-go-macos-latest
+          asset_name: huggingface-go-macos-latest
+          asset_content_type: application/octet-stream
 
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
@@ -111,6 +119,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/huggingface-go-windows-latest.zip
-          asset_name: huggingface-go-windows-latest.zip
-          asset_content_type: application/zip
+          asset_path: ./artifacts/huggingface-go-windows-latest.exe
+          asset_name: huggingface-go-windows-latest.exe
+          asset_content_type: application/octet-stream
